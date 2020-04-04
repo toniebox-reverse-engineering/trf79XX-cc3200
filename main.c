@@ -431,25 +431,32 @@ void main()
 //  TODO: Remove LED2 Jumper on G2 LaunchPad if using it, otherwise SPI will not work.
 
     // Stop the Watchdog timer,
-    WDTCTL = WDTPW + WDTHOLD;
+    //WDTCTL = WDTPW + WDTHOLD;
 
     // Select DCO to be 8 MHz
-    MCU_initClock();
+    //MCU_initClock();
     MCU_delayMillisecond(10);
 
     // Calibrate VLO
     MCU_calculateVLOFreq(); //TODO: PORT!
 
+    //Powerup
+    MAP_GPIOPinWrite(GPIOA0_BASE, 1 << 6, 1 << 6); //GPIO06 PortA0 Pin6
+
     // Set the SPI SS high
-    SLAVE_SELECT_PORT_SET;
-    SLAVE_SELECT_HIGH;
+    //SLAVE_SELECT_PORT_SET;
+    //SLAVE_SELECT_HIGH;
+    //-MAP_GPIOPinWrite(uiGPIOPort, ucGPIOPin, ucGPIOValue);
+    MAP_GPIOPinWrite(GPIOA2_BASE, 1 << 7, 1 << 7); //GPIO23 PortA2 Pin7
 
     // Four millisecond delay between bringing SS high and then EN high per TRF7970A Datasheet
     MCU_delayMillisecond(4);
 
     // Set TRF Enable Pin high
-    TRF_ENABLE_SET;
-    TRF_ENABLE;
+    //TRF_ENABLE_SET;
+    //TRF_ENABLE;
+    MAP_GPIOPinWrite(GPIOA0_BASE, 1 << 7, 1 << 7); //GPIO07 PortA0 Pin7
+    
 
     // Wait until TRF system clock started
     MCU_delayMillisecond(5);
