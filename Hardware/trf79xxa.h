@@ -63,7 +63,7 @@
 // place on the TRF7970A BoosterPack.
 //
 
-#define	TRF79xxA_VERSION			70
+#define	TRF79xxA_VERSION			60
 
 //===============================================================
 
