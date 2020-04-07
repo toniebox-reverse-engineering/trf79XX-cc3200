@@ -73,6 +73,8 @@
 #include "nfc_app.h"
 #include "trf79xxa.h"
 
+#include "mcu_cc3200.h"
+
 
 #define APPLICATION_VERSION     "1.4.0"
 //*****************************************************************************
@@ -441,12 +443,14 @@ void main()
     MCU_calculateVLOFreq(); //TODO: PORT!
 
     //Powerup
+    MAP_GPIODirModeSet(GPIOA0_BASE, 1 << 6, 0x1); //OUT
     MAP_GPIOPinWrite(GPIOA0_BASE, 1 << 6, 1 << 6); //GPIO06 PortA0 Pin6
 
     // Set the SPI SS high
     //SLAVE_SELECT_PORT_SET;
     //SLAVE_SELECT_HIGH;
     //-MAP_GPIOPinWrite(uiGPIOPort, ucGPIOPin, ucGPIOValue);
+    MAP_GPIODirModeSet(GPIOA2_BASE, 1 << 7, 0x1); //OUT
     MAP_GPIOPinWrite(GPIOA2_BASE, 1 << 7, 1 << 7); //GPIO23 PortA2 Pin7
 
     // Four millisecond delay between bringing SS high and then EN high per TRF7970A Datasheet
@@ -455,6 +459,7 @@ void main()
     // Set TRF Enable Pin high
     //TRF_ENABLE_SET;
     //TRF_ENABLE;
+    MAP_GPIODirModeSet(GPIOA0_BASE, 1 << 7, 0x1); //OUT
     MAP_GPIOPinWrite(GPIOA0_BASE, 1 << 7, 1 << 7); //GPIO07 PortA0 Pin7
     
 
@@ -474,10 +479,13 @@ void main()
     NFC_init();
 
     // Enable global interrupts
-    __bis_SR_register(GIE);
+    //__bis_SR_register(GIE);
+    MAP_GPIODirModeSet(GPIOA3_BASE, 1 << 4, 0x0); //IN GPIO28 PORTA3 Pin4
+    //More TODO
 
     // Enable IRQ Pin
-    IRQ_ON;
+    IRQ_ON();
+
 
 #ifdef ENABLE_HOST
     UART_putIntroReaderMsg(RFID_READER_FW_VERSION, RFID_READER_FW_DATE);

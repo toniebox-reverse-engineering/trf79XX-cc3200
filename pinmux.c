@@ -92,7 +92,7 @@ PinMuxConfig(void)
     MAP_PinTypeGPIO(PIN_16, PIN_MODE_0, 0);
 
     //
-    // Configure PIN_18 for RFID IRQ
+    // Configure PIN_18 for RFID IRQ GPIO28
     //
     MAP_PinTypeGPIO(PIN_18, PIN_MODE_0, 0);
 

@@ -291,7 +291,7 @@ TRF79xxA_processIRQ(uint8_t * pui8IrqStatus)
 		TRF79xxA_resetFIFO();		// reset the FIFO after TX
 		TRF79xxA_resetIrqStatus();
 
-		IRQ_CLR;
+		IRQ_CLR();
 	}
 	else if(*pui8IrqStatus == TRF79XXA_IRQ_STATUS_RX_COMPLETE)
 	{	// RX flag means that EOF has been recieved
@@ -425,7 +425,7 @@ TRF79xxA_processIRQ(uint8_t * pui8IrqStatus)
 		TRF79xxA_reset();
 		TRF79xxA_resetIrqStatus();
 
-		IRQ_CLR;
+		IRQ_CLR();
 	}
 }							// Interrupt Service Routine
 
@@ -841,6 +841,8 @@ void TRF79xxA_writeRegister(uint8_t ui8TrfRegister, uint8_t ui8Value)
 
 void TRF79xxA_setupInitiator(uint8_t ui8IsoControl)
 {
+	IRQ_ATTACH(TRF79xxA_irqHandler);
+
 	TRF79xxA_reset();			// Reset the TRF7970A to ensure a clean state of operation before changing modes
 
 	TRF79xxA_turnRfOn();		// Turn on the RF field
@@ -1322,9 +1324,9 @@ TRF79xxA_timerHandler(void)
 //
 //===============================================================
 
-#pragma vector = PORT2_VECTOR
-__interrupt void
-TRF79xxA_irqHandler(void)							// interrupt handler
+//#pragma vector = PORT2_VECTOR
+//__interrupt void
+void TRF79xxA_irqHandler(void)							// interrupt handler
 {
 	uint8_t ui8IrqStatus;
 
@@ -1334,7 +1336,7 @@ TRF79xxA_irqHandler(void)							// interrupt handler
 
 	do
 	{
-		IRQ_CLR;							// PORT2 interrupt flag clear
+		IRQ_CLR();							// PORT2 interrupt flag clear
 
 		// IRQ status register has to be read
 		ui8IrqStatus = TRF79xxA_readIrqStatus();
@@ -1351,7 +1353,7 @@ TRF79xxA_irqHandler(void)							// interrupt handler
 
 		}
 	} while((IRQ_PORT & IRQ_PIN) == IRQ_PIN);
-	__bic_SR_register_on_exit(LPM0_bits);
+	//__bic_SR_register_on_exit(LPM0_bits);
 }
 
 //*****************************************************************************
