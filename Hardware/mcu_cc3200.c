@@ -18,3 +18,7 @@ void IRQ_CLR(void) {
 void IRQ_ATTACH(void (*pfnIntHandler)(void)) {
     MAP_GPIOIntRegister(GPIOA3_BASE, pfnIntHandler);
 }
+
+bool IRQ_PIN_READ(void) {
+    return (1 << 4 & MAP_GPIOPinRead(GPIOA3_BASE, 1 << 4));
+}

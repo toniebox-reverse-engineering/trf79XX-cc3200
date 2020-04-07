@@ -1352,7 +1352,7 @@ void TRF79xxA_irqHandler(void)							// interrupt handler
 
 
 		}
-	} while((IRQ_PORT & IRQ_PIN) == IRQ_PIN);
+	} while(IRQ_PIN_READ()) //while((IRQ_PORT & IRQ_PIN) == IRQ_PIN);
 	//__bic_SR_register_on_exit(LPM0_bits);
 }
 
