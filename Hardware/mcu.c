@@ -38,6 +38,7 @@
 
 #include "mcu.h"
 #include "trf79xxa.h"
+#include "mcu_cc3200.h"
 
 //*****************************************************************************
 //
@@ -49,7 +50,7 @@
 //
 //*****************************************************************************
 
-static uint16_t ui16VLOConst;
+//static uint16_t ui16VLOConst;
 
 //*****************************************************************************
 //
@@ -62,7 +63,7 @@ static uint16_t ui16VLOConst;
 //! \return None.
 //
 //*****************************************************************************
-
+/*
 void MCU_setCounter(uint16_t ui16mSecTimeout)
 {
 	// Max delay = 3.2 seconds (to cover maximum VLO speed of 20kHz)
@@ -77,7 +78,7 @@ void MCU_setCounter(uint16_t ui16mSecTimeout)
     TA0CCTL0 = CCIE;                		// compare interrupt enable
     COUNTER_VALUE = (((ui16VLOConst+1) * ui16mSecTimeout)>>1); // Div by 2 due to ACLK divider
     TA0CTL |= MC_1 + TASSEL_1;      		// Source from ACLK, Up Mode
-}
+}*/
 
 //*****************************************************************************
 //
@@ -95,7 +96,7 @@ void MCU_setCounter(uint16_t ui16mSecTimeout)
 
 void MCU_delayMillisecond(uint32_t n_ms)
 {
-    UtilsDelay(n_ms*1000*80/6); //80Mhz + 6 cycles per tick
+    UtilsDelay(MILLISECONDS_TO_TICKS(n_ms)/6); //6 cycles per tick
     /*
     while (n_ms--)
     {
@@ -113,7 +114,7 @@ void MCU_delayMillisecond(uint32_t n_ms)
 //! \return None.
 //
 //*****************************************************************************
-
+/*
 void MCU_initClock(void)
 {
     // select DCO to 8MHz
@@ -143,7 +144,7 @@ void MCU_initClock(void)
     __delay_cycles(1000);
 
 	return;
-}
+}*/
 
 //*****************************************************************************
 //
@@ -160,7 +161,7 @@ void MCU_initClock(void)
 //! \return None.
 //
 //*****************************************************************************
-
+/*
 void MCU_calculateVLOFreq(void)
 {
 	int16_t i16VLOCalib;
@@ -171,7 +172,7 @@ void MCU_calculateVLOFreq(void)
 	ui32VLOFreq = 8000000 / i16VLOCalib;
 
 	ui16VLOConst = ui32VLOFreq / 1000;
-}
+}*/
 
 
 //*****************************************************************************

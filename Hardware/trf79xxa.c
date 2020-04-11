@@ -501,12 +501,16 @@ TRF79xxA_writeRaw(uint8_t * pui8Payload, uint8_t ui8Length)
 			// Clear the IRQ Flag
 			g_ui8IrqFlag = 0x00;
 			// Setup for the Timer
-			MCU_setCounter(5);
+			//MCU_setCounter(5);
+			TMR_SET(5);
+
 			while((g_ui8IrqFlag == 0x00) && (g_ui8TimeoutFlag == 0x00))	// Wait for an interrupt
 			{
 				// Do Nothing
 			}
-			RESET_COUNTER;
+			//RESET_COUNTER;
+			//TMR_RESET();
+			//TMR_OFF();
 
 			if (g_sTrfStatus == TX_WAIT)
 			{
@@ -842,6 +846,7 @@ void TRF79xxA_writeRegister(uint8_t ui8TrfRegister, uint8_t ui8Value)
 void TRF79xxA_setupInitiator(uint8_t ui8IsoControl)
 {
 	IRQ_ATTACH(TRF79xxA_irqHandler);
+	TMR_ATTACH(TRF79xxA_timerHandler);
 
 	TRF79xxA_reset();			// Reset the TRF7970A to ensure a clean state of operation before changing modes
 
@@ -940,12 +945,16 @@ void TRF79xxA_waitTxIRQ(uint8_t ui8TxTimeout)
 		// Clear the IRQ Flag
 		g_ui8IrqFlag = 0x00;
 		// Setup for the Timer
-		MCU_setCounter(ui8TxTimeout);
+		//MCU_setCounter(ui8TxTimeout);
+		TMR_SET(ui8TxTimeout);
+		
 		while((g_ui8IrqFlag == 0x00) && (g_ui8TimeoutFlag == 0x00))	// Wait for an interrupt
 		{
 			// Do Nothing
 		}
-		RESET_COUNTER;
+		//RESET_COUNTER;
+		TMR_RESET();
+		TMR_OFF();
 		if (g_sTrfStatus != TX_COMPLETE)
 		{
 			if (g_sTrfStatus == TX_WAIT)	// Wait longer since we received an 0xA0
@@ -988,7 +997,9 @@ void TRF79xxA_waitRxIRQ(uint8_t ui8RxTimeout)
 		// Clear the IRQ Flag
 		g_ui8IrqFlag = 0x00;
 		// Setup for the Timer
-		MCU_setCounter(ui8RxTimeout);
+		//MCU_setCounter(ui8RxTimeout);
+		TMR_SET(ui8RxTimeout);
+
 		while((g_ui8IrqFlag == 0x00) && (g_ui8TimeoutFlag == 0x00))	// Wait for an interrupt
 		{
 			// Do Nothing
@@ -999,15 +1010,18 @@ void TRF79xxA_waitRxIRQ(uint8_t ui8RxTimeout)
 #if (TRF79xxA_VERSION == 70)
 			if ((g_eTrfGeneralSettings.ui8IsoControl & 0x1F) > 0x07)
 			{
-				MCU_setCounter(7);
+				//MCU_setCounter(7);
+				TMR_SET(7);
 			}
 			else
 			{
-				MCU_setCounter(50);
+				//MCU_setCounter(50);
+				TMR_SET(50);
 			}
 #endif
 #if (TRF79xxA_VERSION == 60)
-			MCU_setCounter(5);
+			//MCU_setCounter(5);
+			TMR_SET(5);
 #endif
 			while((g_ui8IrqFlag == 0x00) && (g_ui8TimeoutFlag == 0x00))	// Wait for an interrupt
 			{
@@ -1020,7 +1034,9 @@ void TRF79xxA_waitRxIRQ(uint8_t ui8RxTimeout)
 			}
 #endif
 		}
-		RESET_COUNTER;
+		//RESET_COUNTER;
+		TMR_RESET();
+		TMR_OFF();
 		if (g_sTrfStatus == RX_WAIT)
 		{
 			// Exit the while loop
@@ -1287,13 +1303,14 @@ bool TRF79xxA_checkExternalRfField(void)
 //
 //===============================================================
 
-#pragma vector=TIMER0_A0_VECTOR
-__interrupt void
-TRF79xxA_timerHandler(void)
+//#pragma vector=TIMER0_A0_VECTOR
+//__interrupt void
+void TRF79xxA_timerHandler(void)
 {
 	uint8_t ui8IrqStatus;
 
-	STOP_COUNTER;
+	//STOP_COUNTER;
+	TMR_OFF();
 
 	g_ui8TimeoutFlag = 0x01;
 
@@ -1330,7 +1347,8 @@ void TRF79xxA_irqHandler(void)							// interrupt handler
 {
 	uint8_t ui8IrqStatus;
 
-	STOP_COUNTER;							// stop timer mode
+	//STOP_COUNTER;							// stop timer mode
+	TMR_OFF();
 
 	g_ui8IrqFlag = 0x01;
 

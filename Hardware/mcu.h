@@ -43,14 +43,14 @@
 
 //#include "MSP430.h" 		// Processor specific header
 #include "types.h"
-#include "VLO_Library.h"
+//#include "VLO_Library.h"
 
 //=====MCU constants=============================================
 
 #define TRF_ENABLE_SET	P2DIR |= BIT2		// P2.2 is switched in output direction
 #define	TRF_ENABLE		P2OUT |= BIT2		// EN pin on the TRF7970A
 #define TRF_DISABLE		P2OUT &= ~BIT2
-
+/*
 // IRQ on P2.0 or P2.7 depending on BP Version
 #define IRQ_PIN_SET		P2DIR &= ~IRQ_PIN;
 #define IRQ_PIN			(BIT0 | BIT7)
@@ -85,13 +85,14 @@
 //===============================================================
 
 #define DELAY_1ms		8000	// Used for McuDelayMillisecond
-
+*/
 //===============================================================
 
-void MCU_setCounter(uint16_t ui16mSecTimeout);
+
+//void MCU_setCounter(uint16_t ui16mSecTimeout);
 void MCU_delayMillisecond(uint32_t n_ms);
-void MCU_initClock(void);
-void MCU_calculateVLOFreq(void);
+//void MCU_initClock(void);
+//void MCU_calculateVLOFreq(void);
 
 //===============================================================
 
