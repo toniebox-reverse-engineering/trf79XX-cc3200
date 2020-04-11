@@ -65,7 +65,8 @@
 void 
 SPI_directCommand(uint8_t ui8Command)
 {	
-	SLAVE_SELECT_LOW; 						// Start SPI Mode
+	//SLAVE_SELECT_LOW; 						// Start SPI Mode
+	SPI_ENABLE();
 
 	// set Address/Command Word Bit Distribution to command
 	ui8Command = (0x80 | ui8Command);					// command
@@ -76,7 +77,8 @@ SPI_directCommand(uint8_t ui8Command)
 	SPI_sendByte(0x00);					// Dummy TX Write for Direct Commands per TRF796xA SPI Design Tips (sloa140)
 #endif
 
-	SLAVE_SELECT_HIGH; 						//Stop SPI Mode
+	//SLAVE_SELECT_HIGH; 						//Stop SPI Mode
+	SPI_DISABLE();
 }
 
 //===============================================================
@@ -126,7 +128,8 @@ void
 SPI_rawWrite(uint8_t * pui8Buffer, uint8_t ui8Length, bool bContinuedSend)
 {
 	//Start SPI Mode
-	SLAVE_SELECT_LOW;
+	//SLAVE_SELECT_LOW;
+	SPI_ENABLE();
 
 	if (bContinuedSend)
 	{
@@ -147,7 +150,8 @@ SPI_rawWrite(uint8_t * pui8Buffer, uint8_t ui8Length, bool bContinuedSend)
 	}
 
 	// Stop SPI Mode
-	SLAVE_SELECT_HIGH;
+	//SLAVE_SELECT_HIGH;
+	SPI_DISABLE();
 }
 //===============================================================
 // NAME: void SPI_readCont (uint8_t *pui8Buffer, uint8_t length)
@@ -170,7 +174,8 @@ SPI_rawWrite(uint8_t * pui8Buffer, uint8_t ui8Length, bool bContinuedSend)
 void
 SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 {	
-	SLAVE_SELECT_LOW; 							//Start SPI Mode
+	//SLAVE_SELECT_LOW; 							//Start SPI Mode
+	SPI_ENABLE();
 
 	// Address/Command Word Bit Distribution
 	*pui8Buffer = (0x60 | *pui8Buffer); 					// address, read, continuous
@@ -196,7 +201,8 @@ SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 #if (TRF79xxA_VERSION == 60)
 	UCB0CTL0 |= UCCKPH;						// Switch Clock Polarity back
 #endif
-	SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	//SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	SPI_DISABLE();
 }
 
 //===============================================================
@@ -219,7 +225,8 @@ SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 void
 SPI_readSingle(uint8_t * pui8Buffer)
 {			
-	SLAVE_SELECT_LOW; 						// Start SPI Mode
+	//SLAVE_SELECT_LOW; 						// Start SPI Mode
+	SPI_ENABLE();
 
 	// Address/Command Word Bit Distribution
 	*pui8Buffer = (0x40 | *pui8Buffer); 			// address, read, single
@@ -235,7 +242,8 @@ SPI_readSingle(uint8_t * pui8Buffer)
 	UCB0CTL0 |= UCCKPH;						// Switch Clock Polarity back
 #endif
 
-	SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	//SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	SPI_DISABLE();
 }
 
 //===============================================================
@@ -294,8 +302,9 @@ SPI_usciSet(void)								//Uses USCI_B0
 	P1SEL |= BIT5 + BIT6 + BIT7;				// P1.5,1.6,1.7 UCBOCLK,UCB0SIMO,UCB0SOMI, option select
 	P1SEL2 |= BIT5 + BIT6 + BIT7;				// P1.5,1.6,1.7 UCBOCLK,UCB0SIMO,UCB0SOMI, option select
 
-	SLAVE_SELECT_PORT_SET;						// Set the Slave Select Port
-	SLAVE_SELECT_HIGH;							// Slave Select => inactive (high)
+	//SLAVE_SELECT_PORT_SET;						// Set the Slave Select Port
+	//SLAVE_SELECT_HIGH;							// Slave Select => inactive (high)
+	SPI_DISABLE();
 
 	UCB0CTL1 &= ~UCSWRST;						// **Initialize USCI state machine**
 }
@@ -325,7 +334,8 @@ SPI_usciSet(void)								//Uses USCI_B0
 void
 SPI_writeCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 {	
-	SLAVE_SELECT_LOW; 						// Start SPI Mode
+	//SLAVE_SELECT_LOW; 						// Start SPI Mode
+	SPI_ENABLE();
 
 	// Address/Command Wort Bit Distribution
 	*pui8Buffer = (0x20 | *pui8Buffer); 				// address, write, continuous
@@ -336,7 +346,8 @@ SPI_writeCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 		SPI_sendByte(*pui8Buffer++);
 	}
 
-	SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	//SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	SPI_DISABLE();
 }
 
 //===============================================================
@@ -363,7 +374,8 @@ SPI_writeCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 void
 SPI_writeSingle(uint8_t * pui8Buffer)
 {
-	SLAVE_SELECT_LOW; 						// Start SPI Mode
+	//SLAVE_SELECT_LOW; 						// Start SPI Mode
+	SPI_ENABLE();
 
 	// Address/Command Word Bit Distribution
 	// address, write, single (fist 3 bits = 0)
@@ -373,7 +385,8 @@ SPI_writeSingle(uint8_t * pui8Buffer)
 	SPI_sendByte(*pui8Buffer++);
 	SPI_sendByte(*pui8Buffer++);
 
-	SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	//SLAVE_SELECT_HIGH; 						// Stop SPI Mode
+	SPI_DISABLE();
 }
 
 //===============================================================

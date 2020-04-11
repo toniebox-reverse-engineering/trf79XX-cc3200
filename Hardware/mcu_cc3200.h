@@ -14,4 +14,7 @@ void TMR_ON(void);
 void TMR_ATTACH(void (*pfnIntHandler)(void));
 void TMR_SET(unsigned long microseconds);
 
+void SPI_ENABLE(void);
+void SPI_DISABLE(void);
+
 #endif

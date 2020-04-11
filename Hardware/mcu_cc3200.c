@@ -4,6 +4,7 @@
 #include "hw_ints.h"
 #include "timer.h"
 #include "prcm.h"
+#include "rom_map.h"
 
 void IRQ_ON(void) {
     //https://e2e.ti.com/support/wireless-connectivity/wifi/f/968/t/393613
@@ -45,4 +46,11 @@ void TMR_ATTACH(void (*pfnIntHandler)(void)) {
 void TMR_SET(unsigned long microseconds) {
     MAP_TimerConfigure(TIMERA0_BASE, TIMER_CFG_ONE_SHOT);
     MAP_TimerLoadSet(TIMERA0_BASE, TIMER_A, MICROSECONDS_TO_TICKS(microseconds));
+}
+
+void SPI_ENABLE(void) {
+    MAP_GPIOPinWrite(GPIOA2_BASE, BIT7, 0x0); //LOW
+}
+void SPI_DISABLE(void) {
+    MAP_GPIOPinWrite(GPIOA2_BASE, BIT7, BIT7); //HIGH
 }

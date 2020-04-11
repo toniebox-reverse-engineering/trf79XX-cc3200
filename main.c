@@ -451,7 +451,7 @@ void main()
     //SLAVE_SELECT_HIGH;
     //-MAP_GPIOPinWrite(uiGPIOPort, ucGPIOPin, ucGPIOValue);
     MAP_GPIODirModeSet(GPIOA2_BASE, BIT7, 0x1); //OUT
-    MAP_GPIOPinWrite(GPIOA2_BASE, BIT7, BIT7); //GPIO23 PortA2 Pin7
+    SPI_DISABLE();
 
     // Four millisecond delay between bringing SS high and then EN high per TRF7970A Datasheet
     MCU_delayMillisecond(4);
