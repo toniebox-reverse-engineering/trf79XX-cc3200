@@ -2,10 +2,7 @@
 #define MCU_CC3200_H_
 
 #include "hw_types.h"
-
-#define MAP_SysCtlClockGet 80000000
-#define MILLISECONDS_TO_TICKS(ms) ((MAP_SysCtlClockGet / 1000) * (ms))
-#define MICROSECONDS_TO_TICKS(us) ((MAP_SysCtlClockGet / 1000000) * (us))
+#include "helper.h"
 
 void IRQ_ON(void);
 void IRQ_CLR(void);
