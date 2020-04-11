@@ -43,10 +43,11 @@
 
 #include "spi.h"
 #include "uart.h"
+#include "helper.h"
 
 //===============================================================
 
-#define ENABLE_STANDALONE			// Disables all LED features to allow for easier porting
+//#define ENABLE_STANDALONE			// Disables all LED features to allow for easier porting
 
 //===============================================================
 //
