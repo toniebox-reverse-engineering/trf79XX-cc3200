@@ -9,11 +9,11 @@ void IRQ_ON(void) {
     //https://e2e.ti.com/support/wireless-connectivity/wifi/f/968/t/393613
     IRQ_CLR();
     MAP_IntEnable(INT_GPIOA3);
-    MAP_GPIOIntEnable(GPIOA3_BASE, 1 << 4);
+    MAP_GPIOIntEnable(GPIOA3_BASE, BIT4);
 }
 
 void IRQ_CLR(void) {
-    MAP_GPIOIntClear(GPIOA3_BASE, 1 << 4);
+    MAP_GPIOIntClear(GPIOA3_BASE, BIT4);
     MAP_IntPendClear(INT_GPIOA3);
 }
 
@@ -22,7 +22,7 @@ void IRQ_ATTACH(void (*pfnIntHandler)(void)) {
 }
 
 tBoolean IRQ_PIN_READ(void) {
-    return (1 << 4 & MAP_GPIOPinRead(GPIOA3_BASE, 1 << 4));
+    return (BIT4 & MAP_GPIOPinRead(GPIOA3_BASE, BIT4);
 }
 
 void TMR_ON(void) {
