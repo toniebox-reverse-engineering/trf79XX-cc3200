@@ -46,11 +46,11 @@
 //#include "VLO_Library.h"
 
 //=====MCU constants=============================================
-
+/*
 #define TRF_ENABLE_SET	P2DIR |= BIT2		// P2.2 is switched in output direction
 #define	TRF_ENABLE		P2OUT |= BIT2		// EN pin on the TRF7970A
 #define TRF_DISABLE		P2OUT &= ~BIT2
-/*
+
 // IRQ on P2.0 or P2.7 depending on BP Version
 #define IRQ_PIN_SET		P2DIR &= ~IRQ_PIN;
 #define IRQ_PIN			(BIT0 | BIT7)

@@ -38,6 +38,10 @@
  */
 
 #include "spi.h"
+#include "hw_memmap.h"
+#include "hw_mcspi.h"
+#include "hw_types.h"
+#include "rom_map.h"
 #include "trf79xxa.h"
 
 //===============================================================
@@ -95,7 +99,7 @@ SPI_directCommand(uint8_t ui8Command)
 // NOTE: No stop condition
 //
 //===============================================================
-
+/*
 void
 SPI_directMode(void)
 {		
@@ -106,7 +110,7 @@ SPI_directMode(void)
 	SPI_readSingle(&pui8Command[1]);
 	pui8Command[1] |= 0x60;						// RF on and BIT 6 in Chip Status Control Register set
 	SPI_writeSingle(pui8Command);
-}  	
+}  	*/
 
 //===============================================================
 // NAME: void SPI_rawWrite (uint8_t *pui8Buffer, uint8_t length)
@@ -138,6 +142,7 @@ SPI_rawWrite(uint8_t * pui8Buffer, uint8_t ui8Length, bool bContinuedSend)
 
 	while(ui8Length-- > 0)
 	{
+		/*
 		// Check if USCI_B0 TX buffer is ready
 		while (!(IFG2 & UCB0TXIFG));
 
@@ -145,7 +150,8 @@ SPI_rawWrite(uint8_t * pui8Buffer, uint8_t ui8Length, bool bContinuedSend)
 		UCB0TXBUF = *pui8Buffer;
 
 		while(UCB0STAT & UCBUSY);	// Wait while SPI state machine is busy
-
+		*/
+		SPI_sendByte(*pui8Buffer);
 		pui8Buffer++;
 	}
 
@@ -184,9 +190,11 @@ SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 	SPI_sendByte(*pui8Buffer);
 
 #if (TRF79xxA_VERSION == 60)
-	UCB0CTL1 |= UCSWRST;
+	MAP_SPIReset(GSPI_BASE);
+	//UCB0CTL1 |= UCSWRST;
 	UCB0CTL0 &= ~UCCKPH;					// Switch Clock Polarity for Read (TRF7960A)
-	UCB0CTL1 &= ~UCSWRST;
+	//UCB0CTL1 &= ~UCSWRST;
+	MAP_SPIReset(GSPI_BASE);
 #endif
 
 	while(ui8Length-- > 0)
@@ -194,9 +202,11 @@ SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 		*pui8Buffer = SPI_receiveByte();
 		pui8Buffer++;
 	}
+	/*
 	while(UCB0STAT & UCBUSY)
 	{
-	}
+	}*/
+	SPI_receiveByte(); // Replacement for wait while
 
 #if (TRF79xxA_VERSION == 60)
 	UCB0CTL0 |= UCCKPH;						// Switch Clock Polarity back
@@ -252,11 +262,27 @@ SPI_readSingle(uint8_t * pui8Buffer)
 
 uint8_t SPI_receiveByte(void)
 {
+	/*
 	UCB0TXBUF = 0x00;
 
 	while (UCB0STAT & UCBUSY);
 
-	return UCB0RXBUF;
+	return UCB0RXBUF;*/
+	uint8_t *ui8RxByte;
+
+	//MAP_SPIDataGet(GSPI_BASE, &ui8RxByte);
+	//
+	// Wait for Rx data
+	//
+	while(!(HWREG(GSPI_BASE + MCSPI_O_CH0STAT) & MCSPI_CH0STAT_RXS))
+	{
+	}
+
+	//
+	// Read the value
+	//
+	*ui8RxByte = HWREG(GSPI_BASE + MCSPI_O_RX0);
+	return *ui8RxByte;
 }
 
 //===============================================================
@@ -265,9 +291,22 @@ uint8_t SPI_receiveByte(void)
 
 void SPI_sendByte(uint8_t ui8TxByte)
 {
+	/*
 	UCB0TXBUF = ui8TxByte;
 
-	while (UCB0STAT & UCBUSY);
+	while (UCB0STAT & UCBUSY);*/
+
+	//
+	// Wait for space in FIFO
+	//
+	while(!(HWREG(GSPI_BASE + MCSPI_O_CH0STAT)&MCSPI_CH0STAT_TXS))
+	{
+	}
+
+	//
+	// Write the data
+	//
+	HWREG(GSPI_BASE + MCSPI_O_TX0) = ui8TxByte;
 }
 
 //===============================================================
@@ -290,11 +329,15 @@ void SPI_sendByte(uint8_t ui8TxByte)
 void
 SPI_usciSet(void)								//Uses USCI_B0
 {
+	/*
 	UCB0CTL1 |= UCSWRST;						// Enable SW reset
 	UCB0CTL0 |= UCMSB + UCMST + UCSYNC;			// 3-pin, 8-bit SPI master
+	*/
+	MAP_SPIReset(GSPI_BASE);
 #if (TRF79xxA_VERSION == 60)
 	UCB0CTL0 |= UCCKPH;
 #endif
+/*
 	UCB0CTL1 |= UCSSEL_2;						// Source from SMCLK
 
 	UCB0BR0 = 0x04;
@@ -307,6 +350,7 @@ SPI_usciSet(void)								//Uses USCI_B0
 	SPI_DISABLE();
 
 	UCB0CTL1 &= ~UCSWRST;						// **Initialize USCI state machine**
+	*/
 }
 
 
@@ -397,13 +441,13 @@ SPI_writeSingle(uint8_t * pui8Buffer)
 void
 SPI_setup(void)
 {
-	TRF_ENABLE_SET;
+	//TRF_ENABLE_SET; ??
 
-	IRQ_PIN_SET;
-	IRQ_EDGE_SET;								// rising edge interrupt
+	//IRQ_PIN_SET;
+	//IRQ_EDGE_SET;								// rising edge interrupt
 
 	SPI_usciSet();								// Set the USART
 
-	LED_ALL_OFF;
-	LED_PORT_SET;
+	//LED_ALL_OFF;
+	//LED_PORT_SET;
 }

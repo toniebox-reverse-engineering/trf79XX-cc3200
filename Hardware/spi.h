@@ -47,13 +47,13 @@
 //===============================================================
 
 void SPI_directCommand(uint8_t ui8Command);
-void SPI_directMode(void);
+//void SPI_directMode(void);
 void SPI_rawWrite(uint8_t * pui8Buffer, uint8_t ui8Length, bool bContinuedSend);
 void SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length);
 void SPI_readSingle(uint8_t * pui8Buffer);
-uint8_t SPI_receiveByte(void);
-void SPI_sendByte(uint8_t ui8TxByte);
-void SPI_usciSet(void);
+//uint8_t SPI_receiveByte(void);
+//void SPI_sendByte(uint8_t ui8TxByte);
+//void SPI_usciSet(void);
 void SPI_writeCont(uint8_t * pui8Buffer, uint8_t ui8Length);
 void SPI_writeSingle(uint8_t * pui8Buffer);
 void SPI_setup(void);

@@ -442,6 +442,22 @@ void main()
     // Calibrate VLO
     MCU_calculateVLOFreq(); //TODO: PORT!
 
+    //
+    // Configure SPI interface
+    //
+    MAP_SPIConfigSetExpClk(GSPI_BASE,MAP_PRCMPeripheralClockGet(PRCM_GSPI),
+                     SPI_IF_BIT_RATE,SPI_MODE_MASTER,SPI_SUB_MODE_0,
+                     (SPI_SW_CTRL_CS |
+                     SPI_4PIN_MODE |
+                     SPI_TURBO_OFF |
+                     SPI_CS_ACTIVEHIGH |
+                     SPI_WL_8));
+
+    //
+    // Enable SPI for communication
+    //
+    MAP_SPIEnable(GSPI_BASE);
+
     //Powerup
     MAP_GPIODirModeSet(GPIOA0_BASE, BIT6, 0x1); //OUT
     MAP_GPIOPinWrite(GPIOA0_BASE, BIT6, BIT6); //GPIO06 PortA0 Pin6

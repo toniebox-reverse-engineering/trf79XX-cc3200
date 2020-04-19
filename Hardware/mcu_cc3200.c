@@ -11,6 +11,7 @@ void IRQ_ON(void) {
     IRQ_CLR();
     MAP_IntEnable(INT_GPIOA3);
     MAP_GPIOIntEnable(GPIOA3_BASE, BIT4);
+	//TODO: IRQ_EDGE_SET;								// rising edge interrupt
 }
 
 void IRQ_CLR(void) {
