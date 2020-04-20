@@ -24,7 +24,7 @@ void IRQ_ATTACH(void (*pfnIntHandler)(void)) {
 }
 
 tBoolean IRQ_PIN_READ(void) {
-    return (BIT4 & MAP_GPIOPinRead(GPIOA3_BASE, BIT4);
+    return (BIT4 & MAP_GPIOPinRead(GPIOA3_BASE, BIT4));
 }
 
 void TMR_ON(void) {

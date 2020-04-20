@@ -280,6 +280,9 @@ extern uint8_t * TRF79xxA_getTrfBuffer(void);
 extern uint8_t TRF79xxA_getIsoControlValue(void);
 extern bool TRF79xxA_checkExternalRfField(void);
 
+void TRF79xxA_irqHandler(void);
+void TRF79xxA_timerHandler(void);
+
 //===============================================================
 
 #endif

@@ -65,7 +65,7 @@
 void NFC_findTag(void)
 {
 	// Clear IRQ Flags
-	IRQ_CLR;
+	IRQ_CLR();
 
 	TRF79xxA_reset();			// Soft Reset the TRF79xxA to ensure it is in a good state at the start of each process
 								// This is a recommended best practice
@@ -459,7 +459,7 @@ void NFC_appIso15693ReadTag(uint8_t ui8ReqFlag)
 		{
 			if (ISO15693_sendReadSingleBlock(ui8ReqFlag, ui16LoopCount) == STATUS_FAIL)	// Keep reading blocks unless a No Response is received
 			{
-				LED_15693_OFF;
+				//LED_15693_OFF;
 				// No Response - stop reading
 				break;
 			}
@@ -504,7 +504,7 @@ void NFC_appIso15693ReadExtendedTag(uint8_t ui8ReqFlag)
 		{
 			if (ISO15693_sendReadSingleBlockExtended(ui8ReqFlag, ui16LoopCount) == STATUS_FAIL)	// Keep reading blocks until a No Response is received
 			{
-				LED_15693_OFF;
+				//LED_15693_OFF;
 				// No Response - stop reading
 				break;
 			}
