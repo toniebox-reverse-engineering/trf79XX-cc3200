@@ -304,7 +304,7 @@ uint8_t ISO14443A_selectTag(uint8_t ui8Command)
 		// Set Bit 1 in Special Functions Register to 1
 		TRF79xxA_writeRegister(TRF79XXA_SPECIAL_FUNCTION_1,0x02);
 
-		LED_14443A_ON;
+		//LED_14443A_ON;
 #ifdef ENABLE_HOST
 		// UID Completed
 		UART_putNewLine();

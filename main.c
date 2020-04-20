@@ -123,6 +123,7 @@ extern uVectorEntry __vector_table;
 //! \return None.
 //
 //*****************************************************************************
+/*
 static void SlaveIntHandler()
 {
     unsigned long ulRecvData;
@@ -344,8 +345,8 @@ void SlaveMain()
 //*****************************************************************************
 static void
 BoardInit(void)
-{
-/* In case of TI-RTOS vector table is initialize by OS itself */
+{*/
+/* In case of TI-RTOS vector table is initialize by OS itself *//*
 #ifndef USE_TIRTOS
   //
   // Set vector table base
@@ -364,7 +365,7 @@ BoardInit(void)
     MAP_IntEnable(FAULT_SYSTICK);
 
     PRCMCC3200MCUInit();
-}
+}*/
 
 //*****************************************************************************
 //
