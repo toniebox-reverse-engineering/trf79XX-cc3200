@@ -190,11 +190,11 @@ SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 	SPI_sendByte(*pui8Buffer);
 
 #if (TRF79xxA_VERSION == 60)
-	MAP_SPIReset(GSPI_BASE);
+	//MAP_SPIReset(GSPI_BASE);
 	//UCB0CTL1 |= UCSWRST;
-	UCB0CTL0 &= ~UCCKPH;					// Switch Clock Polarity for Read (TRF7960A)
+	//UCB0CTL0 &= ~UCCKPH;					// Switch Clock Polarity for Read (TRF7960A)
 	//UCB0CTL1 &= ~UCSWRST;
-	MAP_SPIReset(GSPI_BASE);
+	//MAP_SPIReset(GSPI_BASE);
 #endif
 
 	while(ui8Length-- > 0)
@@ -209,7 +209,7 @@ SPI_readCont(uint8_t * pui8Buffer, uint8_t ui8Length)
 	SPI_receiveByte(); // Replacement for wait while
 
 #if (TRF79xxA_VERSION == 60)
-	UCB0CTL0 |= UCCKPH;						// Switch Clock Polarity back
+	//UCB0CTL0 |= UCCKPH;						// Switch Clock Polarity back
 #endif
 	//SLAVE_SELECT_HIGH; 						// Stop SPI Mode
 	SPI_DISABLE();
@@ -245,11 +245,11 @@ SPI_readSingle(uint8_t * pui8Buffer)
 
 	SPI_sendByte(*pui8Buffer);					// Previous data to TX, RX
 #if (TRF79xxA_VERSION == 60)
-	UCB0CTL0 &= ~UCCKPH;					// Switch Clock Polarity for Read (TRF7960A)
+	//UCB0CTL0 &= ~UCCKPH;					// Switch Clock Polarity for Read (TRF7960A)
 #endif
 	*pui8Buffer = SPI_receiveByte();
 #if (TRF79xxA_VERSION == 60)
-	UCB0CTL0 |= UCCKPH;						// Switch Clock Polarity back
+	//UCB0CTL0 |= UCCKPH;						// Switch Clock Polarity back
 #endif
 
 	//SLAVE_SELECT_HIGH; 						// Stop SPI Mode
@@ -335,7 +335,7 @@ SPI_usciSet(void)								//Uses USCI_B0
 	*/
 	MAP_SPIReset(GSPI_BASE);
 #if (TRF79xxA_VERSION == 60)
-	UCB0CTL0 |= UCCKPH;
+	//UCB0CTL0 |= UCCKPH;
 #endif
 /*
 	UCB0CTL1 |= UCSSEL_2;						// Source from SMCLK
