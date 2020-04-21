@@ -10,7 +10,8 @@ void IRQ_ATTACH(void (*pfnIntHandler)(void));
 tBoolean IRQ_PIN_READ(void);
 
 void TMR_ON(void);
-//void TMR_OFF(void);
+void TMR_OFF(void);
+void TMR_RESET(void);
 void TMR_ATTACH(void (*pfnIntHandler)(void));
 void TMR_SET(unsigned long microseconds);
 

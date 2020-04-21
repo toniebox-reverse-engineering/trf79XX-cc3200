@@ -381,7 +381,7 @@ void main()
     //
     // Initialize Board configurations
     //
-    BoardInit();
+    //BoardInit();
 
     //
     // Muxing UART and SPI lines.
@@ -396,21 +396,21 @@ void main()
     //
     // Initialising the Terminal.
     //
-    InitTerm();
+    //InitTerm();
 
     //
     // Clearing the Terminal.
     //
-    ClearTerm();
+    //ClearTerm();
 
     //
     // Display the Banner
     //
-    Message("\n\n\n\r");
-    Message("\t\t   ********************************************\n\r");
-    Message("\t\t        CC3200 SPI Demo Application  \n\r");
-    Message("\t\t   ********************************************\n\r");
-    Message("\n\n\n\r");
+    UART_sendCString("\n\n\n\r");
+    UART_sendCString("\t\t   ********************************************\n\r");
+    UART_sendCString("\t\t        CC3200 SPI Demo Application  \n\r");
+    UART_sendCString("\t\t   ********************************************\n\r");
+    UART_sendCString("\n\n\n\r");
 
     //
     // Reset the peripheral
@@ -441,7 +441,7 @@ void main()
     MCU_delayMillisecond(10);
 
     // Calibrate VLO
-    MCU_calculateVLOFreq(); //TODO: PORT!
+    //MCU_calculateVLOFreq(); //TODO: PORT!
 
     //
     // Configure SPI interface
@@ -519,7 +519,7 @@ void main()
         if (ui8VLOCalibCount == 25)
         {
             // Calibrate VLO
-            MCU_calculateVLOFreq();
+            //MCU_calculateVLOFreq();
             // Reset Calibration Counter
             ui8VLOCalibCount = 0;
         }

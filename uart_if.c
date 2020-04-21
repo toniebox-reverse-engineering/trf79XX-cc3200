@@ -35,7 +35,7 @@
 //  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //*****************************************************************************
-
+/*
 // Standard includes
 #include <stdarg.h>
 #include <stdlib.h>
@@ -335,3 +335,4 @@ int Report(const char *pcFormat, ...)
 #endif
   return iRet;
 }
+*/

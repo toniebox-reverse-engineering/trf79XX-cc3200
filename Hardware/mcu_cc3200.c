@@ -33,12 +33,15 @@ void TMR_ON(void) {
     MAP_TimerEnable(TIMERA0_BASE, TIMER_A);
     MAP_TimerIntEnable(TIMERA0_BASE, TIMER_TIMA_TIMEOUT);
 }
-/*
+
 void TMR_OFF(void) {
     MAP_TimerDisable(TIMERA0_BASE, TIMER_A);
     MAP_TimerIntDisable(TIMERA0_BASE, TIMER_TIMA_TIMEOUT);
     MAP_PRCMPeripheralClkDisable(PRCM_TIMERA0, PRCM_RUN_MODE_CLK);
-}*/
+}
+void TMR_RESET(void) {
+
+}
 
 void TMR_ATTACH(void (*pfnIntHandler)(void)) {
     MAP_TimerIntRegister(TIMERA0_BASE, TIMER_A, pfnIntHandler);

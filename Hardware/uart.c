@@ -38,6 +38,8 @@
 */
 
 #include "uart.h"
+#include "rom_map.h"
+#include "hw_memmap.h"
 
 //===============================================================
 
@@ -114,11 +116,14 @@ UART_putByte(uint8_t ui8TxByte)
 void
 UART_putChar(uint8_t ui8TxChar)
 {
+    MAP_UARTCharPut(UARTA0_BASE, ui8TxChar);
+    /*
 	while(!(IFG2 & UCA0TXIFG))				// till UART Transmit buffer is empty
 	{
 	}
 
 	UCA0TXBUF = ui8TxChar;						// send the character
+	*/
 }
 
 //===============================================================
@@ -274,6 +279,7 @@ UART_sendCString(uint8_t * pui8Buffer)
 void
 UART_setup(void)							// uses USCI_A0
 {
+    /*
     // modified for using the ez430-RF256x on the -G2553 LaunchPad
     P1SEL |= BIT2;						// P1.2=TXD
     // this is for TX only... (short TX & RX on the board P1.1 to P1.2)
@@ -291,6 +297,7 @@ UART_setup(void)							// uses USCI_A0
     UCA0MCTL = UCBRS_2;					// Modulation UCBRSx = 2
 
     UCA0CTL1 &= ~UCSWRST;				// Initialize USCI state machine
+    */
 }
 
 //===============================================================
