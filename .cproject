@@ -54,6 +54,7 @@
 									<listOptionValue builtIn="false" value="ccs"/>
 									<listOptionValue builtIn="false" value="cc3200"/>
 								</option>
+								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED.340459962" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED._none" valueType="enumerated"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS.131112149" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS.1550447847" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS.180625393" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS"/>

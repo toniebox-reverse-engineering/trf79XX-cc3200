@@ -35,7 +35,7 @@
 //  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //*****************************************************************************
-/*
+
 // Standard includes
 #include <stdarg.h>
 #include <stdlib.h>
@@ -46,17 +46,17 @@
 #include "hw_types.h"
 #include "hw_memmap.h"
 #include "prcm.h"
-#include "pin.h"
 #include "uart.h"
+#include "pin.h"
 #include "rom.h"
 #include "rom_map.h"
-
 #if defined(USE_FREERTOS) || defined(USE_TI_RTOS)
 #include "osi.h"
 #endif
 
 #include "uart_if.h"
 
+/*
 #define IS_SPACE(x)       (x == 32 ? 1 : 0)
 
 //*****************************************************************************
@@ -69,7 +69,7 @@ static unsigned long __Errorlog;
 //*****************************************************************************
 unsigned int ilen=1;
 
-
+*/
 //*****************************************************************************
 //
 //! Initialization
@@ -84,13 +84,13 @@ void
 InitTerm()
 {
 #ifndef NOTERM
-  MAP_UARTConfigSetExpClk(CONSOLE,MAP_PRCMPeripheralClockGet(CONSOLE_PERIPH), 
-                  UART_BAUD_RATE, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE |
-                   UART_CONFIG_PAR_NONE));
+    MAP_UARTConfigSetExpClk(CONSOLE,MAP_PRCMPeripheralClockGet(CONSOLE_PERIPH),
+                    UART_BAUD_RATE, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE |
+                     UART_CONFIG_PAR_NONE));
 #endif
-  __Errorlog = 0;
+ // __Errorlog = 0;
 }
-
+/*
 //*****************************************************************************
 //
 //!    Outputs a character string to the console

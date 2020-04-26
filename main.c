@@ -54,29 +54,31 @@
 #include <string.h>
 
 // Driverlib includes
-#include "hw_types.h"
-#include "hw_memmap.h"
-#include "hw_common_reg.h"
-#include "hw_ints.h"
-#include "spi.h"
 #include "rom.h"
 #include "rom_map.h"
-#include "utils.h"
-#include "prcm.h"
+#include "hw_memmap.h"
+#include "hw_common_reg.h"
+#include "hw_types.h"
+#include "hw_ints.h"
 #include "uart.h"
 #include "interrupt.h"
+#include "pinmux.h"
+#include "utils.h"
+#include "prcm.h"
 
 // Common interface includes
-#include "uart_if.h"
 #include "pinmux.h"
 
+#include "uart_if.h"
 #include "nfc_app.h"
 #include "trf79xxa.h"
 
 #include "mcu_cc3200.h"
+#include "uartmcu.h"
 
 
 #define APPLICATION_VERSION     "1.4.0"
+#define CONSOLE              UARTA0_BASE
 //*****************************************************************************
 //
 // Application Master/Slave mode selector macro
@@ -96,11 +98,6 @@
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- Start
 //*****************************************************************************
-static unsigned char g_ucTxBuff[TR_BUFF_SIZE];
-static unsigned char g_ucRxBuff[TR_BUFF_SIZE];
-static unsigned char ucTxBuffNdx;
-static unsigned char ucRxBuffNdx;
-
 #if defined(ccs)
 extern void (* const g_pfnVectors[])(void);
 #endif
@@ -112,7 +109,7 @@ extern uVectorEntry __vector_table;
 //*****************************************************************************
 
 
-
+/*
 //*****************************************************************************
 //
 //! SPI Slave Interrupt handler
@@ -123,7 +120,6 @@ extern uVectorEntry __vector_table;
 //! \return None.
 //
 //*****************************************************************************
-/*
 static void SlaveIntHandler()
 {
     unsigned long ulRecvData;
@@ -333,7 +329,7 @@ void SlaveMain()
     //
     Message("Enabled SPI Interface in Slave Mode\n\rReceived : ");
 }
-
+*/
 //*****************************************************************************
 //
 //! Board Initialization & Configuration
@@ -343,10 +339,11 @@ void SlaveMain()
 //! \return None
 //
 //*****************************************************************************
+
 static void
 BoardInit(void)
-{*/
-/* In case of TI-RTOS vector table is initialize by OS itself *//*
+{
+/* In case of TI-RTOS vector table is initialize by OS itself */
 #ifndef USE_TIRTOS
   //
   // Set vector table base
@@ -365,7 +362,7 @@ BoardInit(void)
     MAP_IntEnable(FAULT_SYSTICK);
 
     PRCMCC3200MCUInit();
-}*/
+}
 
 //*****************************************************************************
 //
@@ -381,7 +378,7 @@ void main()
     //
     // Initialize Board configurations
     //
-    //BoardInit();
+    BoardInit();
 
     //
     // Muxing UART and SPI lines.
@@ -391,12 +388,11 @@ void main()
     //
     // Enable the SPI module clock
     //
-    MAP_PRCMPeripheralClkEnable(PRCM_GSPI,PRCM_RUN_MODE_CLK);
 
     //
     // Initialising the Terminal.
     //
-    //InitTerm();
+    InitTerm();
 
     //
     // Clearing the Terminal.
@@ -406,6 +402,7 @@ void main()
     //
     // Display the Banner
     //
+
     UART_sendCString("\n\n\n\r");
     UART_sendCString("\t\t   ********************************************\n\r");
     UART_sendCString("\t\t        CC3200 SPI Demo Application  \n\r");
@@ -428,6 +425,9 @@ void main()
 #endif
 */
 
+    //Powerup
+    MAP_GPIODirModeSet(GPIOA0_BASE, BIT6, 0x00000001); //OUT
+    MAP_GPIOPinWrite(GPIOA0_BASE, BIT6, BIT6); //GPIO06 PortA0 Pin6
 
     uint8_t ui8VLOCalibCount;
 
@@ -459,9 +459,6 @@ void main()
     //
     MAP_SPIEnable(GSPI_BASE);
 
-    //Powerup
-    MAP_GPIODirModeSet(GPIOA0_BASE, BIT6, 0x1); //OUT
-    MAP_GPIOPinWrite(GPIOA0_BASE, BIT6, BIT6); //GPIO06 PortA0 Pin6
 
     // Set the SPI SS high
     //SLAVE_SELECT_PORT_SET;
@@ -476,7 +473,7 @@ void main()
     // Set TRF Enable Pin high
     //TRF_ENABLE_SET;
     //TRF_ENABLE;
-    MAP_GPIODirModeSet(GPIOA0_BASE, BIT7, 0x1); //OUT
+    MAP_GPIODirModeSet(GPIOA0_BASE, BIT7, 1); //OUT
     MAP_GPIOPinWrite(GPIOA0_BASE, BIT7, BIT7); //GPIO07 PortA0 Pin7
     
 
